@@ -2,7 +2,7 @@ import axios from "axios";
 import { useSession, signOut, signIn } from "next-auth/react";
 import { useState } from "react";
 
-export default function admin() {
+export default function Admin() {
   const { data, status } = useSession();
   const [updating, setUpdating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
