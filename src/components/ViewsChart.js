@@ -57,13 +57,18 @@ export default function ViewsChart({
   color = "green",
   id = 0,
 }) {
-  const min = Math.min(...data.map((d) => parseInt(d.viewCount)));
-  const max = Math.max(...data.map((d) => parseInt(d.viewCount)));
+  const formatedData = data.map((d) => ({
+    ...d,
+    viewCount: parseInt(d.viewCount),
+  }));
+
+  const min = Math.min(...formatedData.map((d) => d.viewCount));
+  const max = Math.max(...formatedData.map((d) => d.viewCount));
 
   return (
     <ResponsiveContainer width={width} aspect={aspect} height={height}>
       <AreaChart
-        data={data}
+        data={formatedData}
         margin={{
           bottom: 0,
           left: 0,
@@ -93,7 +98,7 @@ export default function ViewsChart({
           }}
         />
 
-        <YAxis hide domain={[min * 0.98, max]} />
+        <YAxis hide domain={[min * 0.985, max]} />
       </AreaChart>
     </ResponsiveContainer>
   );

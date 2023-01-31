@@ -14,5 +14,15 @@ export default async function getAll(_req, res) {
     },
   });
 
-  return res.status(200).json(data);
+  //sort the data by date
+  const orderedData = data.map((website) => {
+    return {
+      ...website,
+      dataset: website.dataset.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+      }),
+    };
+  });
+
+  return res.status(200).json(orderedData);
 }
