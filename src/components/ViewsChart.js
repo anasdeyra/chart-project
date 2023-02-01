@@ -98,7 +98,7 @@ export default function ViewsChart({
           }}
         />
 
-        <YAxis hide domain={[min * 0.985, max]} />
+        <YAxis hide domain={[min * 0.95, max]} />
       </AreaChart>
     </ResponsiveContainer>
   );

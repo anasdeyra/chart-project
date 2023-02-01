@@ -62,7 +62,7 @@ export default function Home() {
               </div>
             </div>
 
-            <ViewsChart id={i} color={color} data={dataset} />
+            <ViewsChart id={domain} color={color} data={dataset} />
           </div>
         );
       })}

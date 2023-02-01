@@ -68,12 +68,37 @@ export default async function updateAll(req, res) {
     );
   });
 
-  Promise.all(promises)
-    .then(() => {
-      res.status(200).json({ message: "Success" });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ message: "Error" });
-    });
+  let callCount = 0;
+  let lastCallTime = Date.now();
+
+  const maxCallsPerMinute = 5;
+  const intervalinMs = 1000;
+
+  async function rateLimitedApiCall(promise) {
+    // Check if rate limit has been reached
+    if (
+      callCount >= maxCallsPerMinute &&
+      Date.now() - lastCallTime < intervalinMs
+    ) {
+      console.log("Rate limit reached. Waiting...");
+      await new Promise((resolve) =>
+        setTimeout(resolve, 60000 - (Date.now() - lastCallTime))
+      );
+    }
+
+    // Make API call
+    console.log("Making API call...");
+    callCount++;
+    lastCallTime = Date.now();
+
+    // Wait for the promise to resolve
+    return promise;
+  }
+
+  async function runPromises() {
+    const rateLimitedPromises = promises.map(rateLimitedApiCall);
+    await Promise.all(rateLimitedPromises);
+  }
+
+  runPromises();
 }
