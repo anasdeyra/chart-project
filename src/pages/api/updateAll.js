@@ -100,5 +100,12 @@ export default async function updateAll(req, res) {
     await Promise.all(rateLimitedPromises);
   }
 
-  runPromises();
+  runPromises()
+    .then(() => {
+      res.status(200).json({ message: "All websites updated." });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Something went wrong." });
+    });
 }
